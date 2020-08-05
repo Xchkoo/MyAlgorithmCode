@@ -31,7 +31,7 @@ int main(){
 
 	for(int i = 1;i <= m;i++){
 		int minx = 1,maxx = n,mid;
-		while( a[minx] < a[maxx - 1]){
+		while( a[minx] < a[maxx] - 1){
 			mid = a[(minx +maxx)/2 - 1];
 			if(check(a[mid],que[i]))	minx = mid;
 			else	maxx = mid;
