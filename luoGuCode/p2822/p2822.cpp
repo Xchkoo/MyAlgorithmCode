@@ -1,5 +1,6 @@
 #include<iostream>
-using namespace std;
-int main(){
+int main()
+{	
+	std::cout<<"amirpiire~"<<std::endl;
 	return 0;
 }
