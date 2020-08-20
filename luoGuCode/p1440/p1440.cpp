@@ -16,7 +16,7 @@ int main()
 	return 0;
 }
 
-void minx(int x)//x = 1 
+void minx(int x)
 {
 	if(x == 1)
 		cout<<"0"<<endl;
