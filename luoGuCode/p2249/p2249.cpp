@@ -34,7 +34,7 @@ int main(){
 		else if(a[maxx] == que[i])
 			cout<<maxx<<' ';
 		else 	
-			cout<<"-1"<<endl;
+			cout<<"-1"<<" ";
 	}
 	return 0;
 }
