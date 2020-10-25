@@ -3,37 +3,62 @@
 #include<vector>
 #define ull unsigned long long
 using namespace std;
-ull n,k,_cnt,number_digit,s;
+ull n,k,_cnt,number_digit,s = 0;
 vector<ull>ans;
-void unearth()
+bool r = 0;
+
+void unearth(int x,int y)
 {
-	for(register ull i = 2;i<=number_digit;i*=2)
+	if(s >= n)	return;
+	int mid = (x + y)/2;
+//	cout<<"mid= "<<mid<<endl;
+	if(k >= mid)
 	{
-	if((int)k > s+(_cnt/i))
-	{
-		s = _cnt/i;
-		ans.push_back(1);
+		if(r)
+			ans.push_back(0);
+		else
+			ans.push_back(1);
+		s++;
+		r = 1;
+		unearth(mid,y);
+		
 	}
-	else
-		ans.push_back(0);
+	if(k < mid)
+	{
+		if(!r)
+			ans.push_back(0);
+		else
+			ans.push_back(1);
+		s++;
+		r = 0;
+		unearth(x,mid);
 	}
 }
-void _give()
+
+ull _up(int n)
 {
-	for(register ull i = n;i>0;i--)
-		cout<<ans.back();
-}
-int main()
-{
-	cin >> n >> k;
 	for(register ull i = 0;i<n;i++)
 	{
 		_cnt += (int)pow(double(2),i);//2^i
 	}
+	return _cnt;
+}
+
+void _give()
+{
+	for(register ull i = 0;i<n;i++)
+		cout<<ans[i];
+}
+int main()
+{
+	std::ios::sync_with_stdio(0);
+	cin >> n >> k;
+	_cnt = _up(n);
 	//a^0 = 1
 	_cnt++;
-	number_digit = n;
-	unearth();
+	unearth(0,_cnt);
 	_give();
 	return 0;
 }
+
+
