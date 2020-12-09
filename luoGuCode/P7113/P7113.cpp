@@ -3,7 +3,7 @@
 #include<algorithm>
 using namespace std;
 #define MAXN 10000
-
+int gcd(int x,int y);
 int n,m,cnt,edgenum;
 typedef long long ll;
 int head[MAXN];
@@ -18,14 +18,16 @@ struct Edge {
     }
 }edge[MAXN<<1];
 
+
+
 class Fraction{
 public:
     int denominator;
     int numerator;
     void simplify() {
-        int ngcd = __gcd(this->denominator,this->numerator);
-        this->denominator = this->denominator/ngcd;
-        this->numerator = this ->numerator/ngcd;
+        int ngcd = gcd(denominator,numerator);
+        denominator = denominator/ngcd;
+        numerator = numerator/ngcd;
     }
     Fraction operator+(const  Fraction& b){
         Fraction fra;
@@ -39,6 +41,7 @@ public:
     Fraction operator=(const Fraction& b)   {
         this->denominator = b.denominator;
         this->numerator = b.numerator;
+        return *this;
     } 
     void AddFra(int x,int y)
     {
@@ -48,6 +51,11 @@ public:
 }
 headw[MAXN];
 
+int gcd(int x,int y){
+    if(x % y==0)
+        return y;
+    return gcd(y,x%y);
+}
 void Addnode(int __in,int __out){
     cnt++;
     edge[cnt].to = __out;

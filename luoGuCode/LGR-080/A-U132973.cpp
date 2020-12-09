@@ -62,5 +62,6 @@ int main(){
         a[j] = reduction(a[j]);
     }
     __output__();
+	cout<<endl;
     return 0;
 }
