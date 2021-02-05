@@ -1,20 +1,38 @@
 #include<iostream>
-#define MAXQ 50000//5*10e5
+#define N 500010
+using namespace std;
+int n;
+int o[N];//Main
+int tem[N];//Temporary
+long long ans;
 
-struct sd{
-	int val,loc;//val是值 loc是当前点的位置 
-}x[MAXQ]
-size_t n;
-size_t a[MAXQ],c[MAXQ],;
-size_t add(size_t x)    {
+void msort(int b,int e)// b = begin e = end
+{
+    if(b == e)
+		return;
+    int mid=(b+e)/2,i=b,j=mid+1,k=b;
+    msort(b,mid),msort(mid+1,e);
+    while(i <= mid&&j <= e)
+    	if(o[i]<=o[j])
+    		tem[k++]=o[i++];
+    	else
+    		tem[k++]=o[j++],ans+=mid-i+1;//count answer
+    while(i<=mid)
+    	tem[k++]=o[i++];
+    while(j<=e)
+    	tem[k++]=o[j++];
+    for(int l=b;l<=e;l++)
+    	o[l]=tem[l];
+}           
 
-}
-
-int main()  {
-    std::ios::sync_with_stdio(false);
-    std::cin >> n;
-    for(int i = 1;i <= n;i++)   {
-        std::cin >> a[i];
-    } 
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin >> n;
+    for(int i=1;i<=n;i++){
+        cin >> o[i];
+    }
+    msort(1,n);
+    cout << ans;
     return 0;
 }
