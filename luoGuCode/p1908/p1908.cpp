@@ -1,3 +1,11 @@
+/*
+ * © Copyright 2021 Xchkoo All rights reserved.
+ * Author: Xchkoo
+ * Date: 2021-02-04 5:40
+ * LISENSE: CC v4.0 BY-SA https://creativecommons.org/licenses/by-sa/4.0/deed.zh
+ * Remark: Thanks for viewing XD
+ * Welcome to my blog -> Xchkoo.top 
+ */
 #include<iostream>
 #define N 500010
 using namespace std;
