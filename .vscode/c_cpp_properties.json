@@ -4,7 +4,8 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "F:\MyRepository\luoGuCode\luoGuCode\P7113"
+                "F:/MyRepository/luoGuCode/luoGuCode/P7113"
+                
             ],
             "defines": [
                 "_DEBUG",
