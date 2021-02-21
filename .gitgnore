@@ -1,4 +1,4 @@
-[禁止上传]*.cpp
+禁止上传-*.cpp
 *.exe
 *.out
 /.vscode/
