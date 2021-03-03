@@ -8,27 +8,24 @@
  * Welcome to my blog -> Xchkoo.top
  */
 #include <iostream>
-#include <cstring>//for memset
+#include <cstdio>
+#include <cstring> //memset
+#define ll long long
 using namespace std;
-int n,m;
-string __type_info;
-int cnt;
-typedef long long ll;
-typedef size_t s_t;
-const int MAXN = 10e5;
+const int MAXN = 10e5 + 5;
+int n, m;
+char type[100];
 int head[MAXN];
-ll f[MAXN][2];
-int val[MAXN];
-struct node {
-    int nxt,to;
-} edge[MAXN<<1];
-void addEdge(int u,int v) {
-    edge[cnt].nxt = head[u];
-    edge[cnt].to = v;
-    head[u] = cnt;
-    cnt++; 
-}
-int vis[MAXN];
+struct Edge{
+	int to,nxt;
+	Edge(int a=0, int b=0){
+		to = a;
+		nxt = head[b];	
+	}
+}e[MAXN<<1];
+
+int val[MAXN], cnt;
+
 struct Rest{
 	int node1;
 	int val1;
@@ -36,13 +33,40 @@ struct Rest{
 	int val2;	
 }rest[MAXN];//初始化为2,0表示不取；1表示取。 
 
+int vis[MAXN];
 
-int min(int a,int b){
-    if(a < b)   return a;
-    else    return b;
-}
-void trans(int id)
+ll f[MAXN][2];
+
+ll dfs(int v, int u)
 {
+	if ((vis[u]==0) && (vis[v]==0)) return -1;
+	f[v][0] = 0; 
+	f[v][1] = val[v];
+	for (int i=head[v];i;i=e[i].nxt){
+		int y = e[i].to;
+	    if (y == u) continue;
+		if (dfs(y,v) < 0)   return -1;
+	    f[v][0] += f[y][1];	
+		if (vis[y] == 0) {
+			f[v][1] = f[v][1] + f[y][0];
+			vis[v] = 1; //碰到一个儿子节点如此，则父节点必须为1；
+        }
+		else if (vis[y] == 1) 
+			f[v][1] = f[v][1] + f[y][1];
+		
+		else
+			f[v][1] = min(f[v][1] + f[y][0],f[v][1] + f[y][1]);
+	     
+	}
+	if (vis[v]==1) 
+		return f[v][1];
+	else if(vis[v] == 0) 
+		return f[v][0];	
+	else return min(f[v][0],f[v][1]);    
+}
+	    
+
+void trans(int id){
 	memset(vis,2,sizeof(vis));
 	int a = rest[id].node1;
 	int b = rest[id].node2;
@@ -50,94 +74,45 @@ void trans(int id)
 	int y = rest[id].val2;
 	vis[a] = x;
 	vis[b] = y;
-
 }
+int main(){
+		int a,b;
+	//cin >> n >> m >> type;
+	scanf("%d%d%s", &n,&m,type);	
+	for(int i=1;i<=n; ++i)
 
+	{	
+		scanf("%d", &(val[i]));	
+	} 
 
-ll dfs(int v, int u, int loop)
+  	for(int i=1;i<=(n-1); ++i)
+  	{
+  		scanf("%d%d", &a,&b);
+		e[++cnt] = Edge(a,b); 
+		head[b] = cnt;
 
-{
-
-	
-
-	if ((vis[u]==0) && (vis[v]==0)) 
-
-	{
-
-		return -1;
-
+		e[++cnt] = Edge(b,a); 
+		head[a] = cnt;
 	}
 
-	
-
-	f[v][0] = 0; //标识当前V节点不选择的情况。
-
-	f[v][1] = val[v]; 
-
-
-
-	for (int i=head[v]; i; i=edge[i].nxt)
-
+	int x,y;
+	for(ll i=1; i<=m; ++i)
 	{
-		int y = edge[i].to;
-	    if (y == u) continue;
-		if (dfs(y,v,loop) < 0)
-		{
-			return -1;
-		} 
-	    f[v][0] += f[y][1];
-		if (vis[y] == 0) 
-		{
-			f[v][1] = f[v][1] + f[y][0];
-			vis[v] = 1; //碰到一个儿子节点如此，则父节点必须为1； 
-		}
-		else if (vis[y] == 1) 
-		{
-			f[v][1] = f[v][1] + f[y][1];
-		}
-		else
-		{
-			f[v][1] = min(f[v][1] + f[y][0],f[v][1] + f[y][1]);
-	    }
+		scanf("%d%d%d%d", &a,&x,&b,&y);
+		rest[i].node1 = a;
+		rest[i].val1 = x;
+		rest[i].node2 = b;		
+		rest[i].val2 = y;
 	}
-	if (vis[v]==1) 
-	{
-		return f[v][1];
-	}
-	else if(vis[v] == 0) 
-	{
-		return f[v][0];	
-	}
-	else return min(f[v][0],f[v][1]);
-}
-int main() {
-    ios::sync_with_stdio(false);
-    cin >>  n >> m;
-    cin >>  __type_info; //num
-    for(int i = 1;i <= n;i++) { //head
-        cin >> head[i];
-    }
-
-    int a,b;
-    for(int i = 1;i < n;i++) { //edge
-        
-        cin >> a >> b;
-        addEdge(a,b),addEdge(b,a);
-    }
-
-    int x,y;
-    for(int j = 1;j <= m;j++) {
-        cin >> a >> x >> b >> y;
-        rest[j].node1 = a;
-		rest[j].val1 = x;		
-		rest[j].node2 = b;		
-		rest[j].val2 = y;
-    }
-    for(int i=1;i<=m;++i) {	
+	for(int i=1;i<=m;++i)
+	{	
 		trans(i);
-		ll res = dfs(1,0,i);
+		ll res = dfs(1,0);
 		cout << res << endl;
-
 	}
-    return 0;
+
+	return 0;
+
+	
+
 }
