@@ -21,18 +21,26 @@ int main()
             else 
                 m = 30;
             for(int day = 1; day <= m; day++){
-                string date = to_string(i) + to_string(j) + to_string(day);
+                if(i == 2020 && j == 4 && day == 14){
+                    cout << res << endl;
+                    return 0;
+                }
+                string year = to_string(i);
+                string month = (j < 10 ? "0" : "") + to_string(j);
+                string dayStr = (day < 10 ? "0" : "") + to_string(day);
+                string date = year + month + dayStr;
                 int sum = 0;
                 for(int p = 0; p < 8; p++){
-                    sum += characterToNumber[int(date[p])];
+                    sum += characterToNumber[date[p] - '0'];
                 }
                 if(sum > 50){
                     res++;
                 }
-                cout << res << endl;
-                return 0;
             }
         }
     }
+    cout << res << endl;
     return 0;
 }
+
+//answer:3228
